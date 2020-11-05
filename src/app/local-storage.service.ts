@@ -8,6 +8,7 @@ export class LocalStorageService {
   localStorage: Storage;
   constructor() {
     this.localStorage = window.localStorage;
+    this.localStorage.clear()
   }
 
   get(key: string): any {
@@ -26,7 +27,7 @@ export class LocalStorageService {
 
       data.push(value)
 
-      this.localStorage.setItem(key, JSON.stringify(data));
+      this.localStorage.setItem(key, JSON.stringify(value));
       return true;
     }
     return false;

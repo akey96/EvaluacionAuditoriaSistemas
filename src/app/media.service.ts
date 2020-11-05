@@ -20,7 +20,7 @@ export class MediaService {
         media = sumatoria/len;
         resolv(media);
       }else{
-        reject();
+        reject("Error, no exiten datos que calcular");
       }
     });
   } 

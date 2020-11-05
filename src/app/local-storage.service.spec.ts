@@ -10,22 +10,31 @@ describe('LocalStorageService', () => {
     service = TestBed.inject(LocalStorageService);
   });
 
-  it('Servicio LocalStorage deberia ser creado', () => {
+  it('Servicio LocalStorage deberia ser creado y poder invocar a sus metodos', () => {
     expect(service).toBeTruthy();
-  });
-
-  it('Deberia poder crear variables en el localStorage', () => {
-    expect(service.set('edad', 12)).toBeTruthy();
-  });
-
-  it('Deberia poder obtener el valor del una variable guardada en el localstorage', () => {
+    let methodSetCalled = spyOn(service, 'set');
+    let methodGetCalled = spyOn(service, 'get');
+    let methodRemoveCalled = spyOn(service, 'remove');
+    
     service.set('edad', 12);
+    service.get('edad');
+    service.remove('edad');
+    
+    expect(methodSetCalled).toHaveBeenCalled();
+    expect(methodGetCalled).toHaveBeenCalled();
+    expect(methodRemoveCalled).toHaveBeenCalled();
+  });
+
+  it('Servicio LocalStorage deberia poder crear y obtener variables', () => {
+    expect(service.set('edad', 12)).toBeTruthy();
     expect(service.get('edad')).toEqual(12);
   });
+
   
-  it('Deberia poder eliminar una variable guardada en el localstorage', () => {
+  it('Servicio LocalStorage deberia poder eliminar una variable', () => {
     service.set('edad', 12)
     expect(service.remove('edad')).toBeTruthy();
     expect(service.get('edad')).toBeNull();
   });
+  
 });
