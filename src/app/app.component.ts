@@ -1,4 +1,4 @@
-import { Component, OnInit, OnChanges } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';  
 import { BrowserModule } from '@angular/platform-browser';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
@@ -10,7 +10,7 @@ import { MediaService } from './media.service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements OnInit, OnChanges {
+export class AppComponent implements OnInit {
   title = 'mediaAritmetica';
   list: Number[] = [];
   form: FormGroup;
@@ -18,6 +18,7 @@ export class AppComponent implements OnInit, OnChanges {
   valid: Boolean;
   invalid: Boolean;
   count: Number;
+  incorrectos: Number;
 
   constructor(private localSTorageServ: LocalStorageService, private mediaService: MediaService) { 
     this.form = new FormGroup({
@@ -30,30 +31,34 @@ export class AppComponent implements OnInit, OnChanges {
   
   ngOnInit() {
     this.list = this.localSTorageServ.get('items');
-    this.valid = true;
-    this.valid =true;
+    this.valid = false;
+    this.valid = false;
     this.count = this.list == null? 0 : this.list.length
-  }
-
-  ngOnChanges() {
-    alert()
+    let incorrectos = this.localSTorageServ.get('incorrectos')
+    this.incorrectos = (incorrectos == null)? 0 : incorrectos;
   }
 
   save() {
     const { minimum, maximum, value } = this.form.value;
     let data = this.localSTorageServ.get('items')
+    let datos_incorrectos = this.localSTorageServ.get('incorrectos')
     
     if (data == null) {
       data = []
     }
 
+    if (datos_incorrectos == null) {
+      datos_incorrectos = 0
+    }
+
     if (minimum <= value && maximum >= value) {
       data.push(value)
       this.localSTorageServ.set('items', data);
+    } else {
+      this.localSTorageServ.set('incorrectos', datos_incorrectos+1);
     }
 
-    this.list = this.localSTorageServ.get('items')
-    this.count = this.list?.length
+    this.ngOnInit()
   }
 
   validateRange(e){
