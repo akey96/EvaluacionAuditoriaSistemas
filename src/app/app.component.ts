@@ -38,7 +38,7 @@ export class AppComponent implements OnInit {
     this.incorrectos = (incorrectos == null)? 0 : incorrectos;
   }
 
-  save() {
+  async save() {
     const { minimum, maximum, value } = this.form.value;
     let data = this.localSTorageServ.get('items')
     let datos_incorrectos = this.localSTorageServ.get('incorrectos')
@@ -55,7 +55,7 @@ export class AppComponent implements OnInit {
       data.push(value)
       this.localSTorageServ.set('items', data);
     } else {
-      this.localSTorageServ.set('incorrectos', datos_incorrectos+1);
+      this.localSTorageServ.set('incorrectos', datos_incorrectos.toString() + 1);
     }
 
     this.ngOnInit()

@@ -3,7 +3,7 @@
 <br>
 
 <div class="container">
-  <form [formGroup]="form" (ngSubmit)="save()">
+  <form [formGroup]="form" >
     <div class="form-row">
 
       <div class="col-md-3 mb-3">
@@ -48,7 +48,7 @@
       </div>
       <div class="col-md-2 mb-3">
         <label for="idButtomAgregar">.</label>
-        <button class="form-control btn btn-primary" id="idButtomAgregar">Agregar</button>
+        <button class="form-control btn btn-primary" (click)="save()" id="idButtomAgregar">Agregar</button>
       </div>
 
     </div>
