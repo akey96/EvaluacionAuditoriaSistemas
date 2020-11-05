@@ -30,9 +30,7 @@
         <label for="idNumber">Agregar Valor</label>
         <input type="number" class="form-control" [ngClass]="{ 'is-invalid': validate() && form.get('minimum').touched }" id="idNumber" placeholder="Numero" aria-describedby="idNumberFeedback"
         formControlName="value" required>
-        <div id="idNumberFeedback" class="invalid-feedback">
-          Ingresa un numero valido por favor.
-        </div>
+        <div id="idNumberFeedback" class="invalid-feedback">Ingresa un numero valido por favor.</div>
       </div>
       <div class="col-md-2 mb-3">
         <label for="idButtomAgregar">.</label>
