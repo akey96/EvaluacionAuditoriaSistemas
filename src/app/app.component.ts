@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';  
 import { BrowserModule } from '@angular/platform-browser';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
@@ -10,11 +10,14 @@ import { MediaService } from './media.service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, OnChanges {
   title = 'mediaAritmetica';
   list: Number[] = [];
   form: FormGroup;
   value: number;
+  valid: Boolean;
+  invalid: Boolean;
+  count: Number;
 
   constructor(private localSTorageServ: LocalStorageService, private mediaService: MediaService) { 
     this.form = new FormGroup({
@@ -27,20 +30,40 @@ export class AppComponent implements OnInit {
   
   ngOnInit() {
     this.list = this.localSTorageServ.get('items');
+    this.valid = true;
+    this.valid =true;
+    this.count = this.list == null? 0 : this.list.length
+  }
+
+  ngOnChanges() {
+    alert()
   }
 
   save() {
-    const { value } = this.form.value;
-    this.localSTorageServ.set('items', value);
+    const { minimum, maximum, value } = this.form.value;
+    let data = this.localSTorageServ.get('items')
+    
+    if (data == null) {
+      data = []
+    }
+
+    if (minimum <= value && maximum >= value) {
+      data.push(value)
+      this.localSTorageServ.set('items', data);
+    }
+
     this.list = this.localSTorageServ.get('items')
+    this.count = this.list?.length
   }
 
-  validate(){
+  validateRange(e){
     const { minimum, maximum, value } = this.form.value;
-    if (typeof value === 'number' || typeof minimum === 'number' || typeof maximum === 'number') {
-      return false
+    if (minimum > maximum) {
+      this.valid = true
+      this.invalid = false
     } else {
-      return true
+      this.valid = false
+      this.invalid = true
     }
   }
 
@@ -50,5 +73,6 @@ export class AppComponent implements OnInit {
       this.value = media;
     })
     .catch((err)=>{});
-  } 
+  }
+
 }

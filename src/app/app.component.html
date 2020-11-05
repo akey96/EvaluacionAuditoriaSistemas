@@ -9,18 +9,32 @@
       <div class="col-md-3 mb-3">
         <label for="idMinimo">Rango de Valores</label>
         <!--is-invalid-->
-        <input  type="number"   name="minimum"
-          class="form-control is-valid" pattern="^[0-9]*$" placeholder="Minimo" id="idMinimo" aria-describedby="idMinimoFeedback"
+        <input 
+          type="number"
+          class="form-control" 
+          [ngClass]="{ 
+            'is-invalid': valid && form.get('maximum').touched,
+            'is-valid': invalid && form.get('maximum').touched
+          }" 
+          name="minimum"
+          placeholder="Minimo" id="idMinimo" aria-describedby="idMinimoFeedback"
           formControlName="minimum" required>
 
         <div id="idMinimoFeedback" class="invalid-feedback" data-error="wrong" data-success="right">
-          Ingresa un numero valido por favor.
+          Este valor debe ser menor al Maximo.
         </div>
       </div>
 
       <div class="col-md-3 mb-3">
         <label for="idMaximo">.</label>
-        <input type="number" class="form-control is-valid" 
+        <input 
+          type="number" 
+          class="form-control" 
+          (keyup)="validateRange($event)"
+          [ngClass]="{ 
+            'is-invalid': valid && form.get('maximum').touched,
+            'is-valid': invalid && form.get('maximum').touched
+          }"
           placeholder="Maximo" id="idMaximo" aria-describedby="idMaximoFeedback" formControlName="maximum" required>
         <div id="idMaximoFeedback" class="invalid-feedback">
           Ingresa un numero valido por favor.
@@ -28,7 +42,7 @@
       </div>
       <div class="col-md-4 mb-3">
         <label for="idNumber">Agregar Valor</label>
-        <input type="number" class="form-control" [ngClass]="{ 'is-invalid': validate() && form.get('minimum').touched }" id="idNumber" placeholder="Numero" aria-describedby="idNumberFeedback"
+        <input type="number" class="form-control" id="idNumber" placeholder="Numero" aria-describedby="idNumberFeedback"
         formControlName="value" required>
         <div id="idNumberFeedback" class="invalid-feedback">
           Ingresa un numero valido por favor.
@@ -73,7 +87,7 @@
 
   <div class="form-row">
     <div class="col-md-3 mb-3">
-      <p id="idDatosCorrectos">Datos correctos: 0</p>
+      <p id="idDatosCorrectos">Datos correctos: {{ count }}</p>
     </div>
     <div class="col-md-3 mb-3">
       <p id="idDatosIncorrectos">Datos incorrectos: 0</p>
