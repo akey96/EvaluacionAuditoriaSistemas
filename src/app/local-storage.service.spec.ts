@@ -26,11 +26,11 @@ describe('LocalStorageService', () => {
   });
 
   it('Servicio LocalStorage deberia poder crear y obtener variables', () => {
+    expect(service.get('edad')).toBeNull();
     expect(service.set('edad', 12)).toBeTruthy();
     expect(service.get('edad')).toEqual(12);
   });
 
-  
   it('Servicio LocalStorage deberia poder eliminar una variable', () => {
     service.set('edad', 12)
     expect(service.remove('edad')).toBeTruthy();

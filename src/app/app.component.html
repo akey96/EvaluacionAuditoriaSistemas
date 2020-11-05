@@ -9,8 +9,8 @@
       <div class="col-md-3 mb-3">
         <label for="idMinimo">Rango de Valores</label>
         <!--is-invalid-->
-        <input  type="number" [ngClass]="{ 'is-invalid': validate() && form.get('minimum').touched }" name="minimum"
-          class="form-control" pattern="^[0-9]*$" placeholder="Minimo" id="idMinimo" aria-describedby="idMinimoFeedback"
+        <input  type="number"   name="minimum"
+          class="form-control is-valid" pattern="^[0-9]*$" placeholder="Minimo" id="idMinimo" aria-describedby="idMinimoFeedback"
           formControlName="minimum" required>
 
         <div id="idMinimoFeedback" class="invalid-feedback" data-error="wrong" data-success="right">
@@ -20,7 +20,7 @@
 
       <div class="col-md-3 mb-3">
         <label for="idMaximo">.</label>
-        <input type="number" class="form-control" [ngClass]="{ 'is-invalid': validate() && form.get('maximum').touched }"
+        <input type="number" class="form-control is-valid" 
           placeholder="Maximo" id="idMaximo" aria-describedby="idMaximoFeedback" formControlName="maximum" required>
         <div id="idMaximoFeedback" class="invalid-feedback">
           Ingresa un numero valido por favor.

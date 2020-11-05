@@ -20,12 +20,12 @@ export class LocalStorageService {
 
   set(key: string, value: any): boolean {
     if (this.isLocalStorageSupported) {
-      let data = this.get('items')
-      if (data == null) {
-        data = []
-      }
+      // let data = this.get('items')
+      // if (data == null) {
+      //   data = []
+      // }
 
-      data.push(value)
+      // data.push(value)
 
       this.localStorage.setItem(key, JSON.stringify(value));
       return true;
