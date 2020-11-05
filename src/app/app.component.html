@@ -3,83 +3,83 @@
 <br>
 
 <div class="container">
-  <form>
+  <form [formGroup]="form" (ngSubmit)="save()">
     <div class="form-row">
+
       <div class="col-md-3 mb-3">
         <label for="idMinimo">Rango de Valores</label>
         <!--is-invalid-->
-        <input type="number" class="form-control" placeholder="Minimo" id="idMinimo" aria-describedby="idMinimoFeedback" required>
-        <div id="idMinimoFeedback" class="invalid-feedback">
-          Please provide a valid zip.
-        </div>
-        <div class="valid-feedback">
-          Looks good!
+        <input  type="number" [ngClass]="{ 'is-invalid': validate() && form.get('minimum').touched }" name="minimum"
+          class="form-control" pattern="^[0-9]*$" placeholder="Minimo" id="idMinimo" aria-describedby="idMinimoFeedback"
+          formControlName="minimum" required>
+
+        <div id="idMinimoFeedback" class="invalid-feedback" data-error="wrong" data-success="right">
+          Ingresa un numero valido por favor.
         </div>
       </div>
+
       <div class="col-md-3 mb-3">
         <label for="idMaximo">.</label>
-        <input type="number" class="form-control is-invalid" placeholder="Maximo" id="idMaximo" aria-describedby="idMaximoFeedback" required>
+        <input type="number" class="form-control" [ngClass]="{ 'is-invalid': validate() && form.get('maximum').touched }"
+          placeholder="Maximo" id="idMaximo" aria-describedby="idMaximoFeedback" formControlName="maximum" required>
         <div id="idMaximoFeedback" class="invalid-feedback">
-          Please provide a valid zip.
-        </div>
-        <div class="valid-feedback">
-          Looks good!
+          Ingresa un numero valido por favor.
         </div>
       </div>
       <div class="col-md-4 mb-3">
         <label for="idNumber">Agregar Valor</label>
-        <input type="number" class="form-control" id="idNumber" placeholder="Numero" aria-describedby="idNumberFeedback" required>
+        <input type="number" class="form-control" [ngClass]="{ 'is-invalid': validate() && form.get('minimum').touched }" id="idNumber" placeholder="Numero" aria-describedby="idNumberFeedback"
+        formControlName="value" required>
         <div id="idNumberFeedback" class="invalid-feedback">
-          Please provide a valid zip.
-        </div>
-        <div class="valid-feedback">
-          Looks good!
+          Ingresa un numero valido por favor.
         </div>
       </div>
       <div class="col-md-2 mb-3">
         <label for="idButtomAgregar">.</label>
-        <button  class="form-control btn btn-primary" id="idButtomAgregar">Agregar</button>
+        <button class="form-control btn btn-primary" id="idButtomAgregar">Agregar</button>
       </div>
-      
+
     </div>
-    <div class="form-row">
-      <div class="col-md-6 mb-3">
-        <table class="table" id="idDatosTable">
-          <thead class="thead-dark">
-            <tr>
-              <th scope="col">#</th>
-              <th scope="col">Valor</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <th scope="row">1</th>
-              <td>35</td>
-            </tr>
-            
-          </tbody>
-        </table>
-      </div>
-      <div class="col-md-4 mb-3">
-        <label for="idMediaAritmetica">Media Aritmetica</label>
-        <p class="text form-control" id="idMediaAritmetica">Media: </p>
-        
-      </div>
-      <div class="col-md-2 mb-3">
-        <label for="idButtomMedia">.</label>
-        <button  class="form-control btn btn-primary" id="idButtomMedia">Calcular</button>
-      </div>
-    </div>
-  
-    <div class="form-row">
-      <div class="col-md-3 mb-3">
-        <p id="idDatosCorrectos">Datos correctos: 0</p>
-      </div>
-      <div class="col-md-3 mb-3">
-        <p id="idDatosIncorrectos">Datos incorrectos: 0</p>
-      </div>
-      
-    </div>
-  
   </form>
+
+  <div class="form-row">
+    <div class="col-md-6 mb-3">
+      <table class="table" id="idDatosTable">
+        <thead class="thead-dark">
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Valor</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of list; let i = index ">
+            <th scope="row">{{ i+1 }}</th>
+            <td>{{ item }}</td>
+          </tr>
+
+        </tbody>
+      </table>
+    </div>
+    <div class="col-md-4 mb-3">
+      <label for="idMediaAritmetica">Media Aritmetica</label>
+      <p class="text form-control" id="idMediaAritmetica">Media: </p>
+
+    </div>
+    <div class="col-md-2 mb-3">
+      <label for="idButtomMedia">.</label>
+      <button class="form-control btn btn-primary" id="idButtomMedia">Calcular</button>
+    </div>
+  </div>
+
+  <div class="form-row">
+    <div class="col-md-3 mb-3">
+      <p id="idDatosCorrectos">Datos correctos: 0</p>
+    </div>
+    <div class="col-md-3 mb-3">
+      <p id="idDatosIncorrectos">Datos incorrectos: 0</p>
+    </div>
+
+  </div>
+
+
 </div>
