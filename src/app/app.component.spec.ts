@@ -2,7 +2,7 @@ import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { AppComponent } from './app.component';
 import { By } from '@angular/platform-browser';
 
-
+import {resetValueMedia, resetValueIncorrect} from './helpers/helpers';
 
 import { LocalStorageService } from './local-storage.service';
 
@@ -10,7 +10,6 @@ describe('AppComponent', () => {
 
   let component: AppComponent;
   let fixture: ComponentFixture<AppComponent>;
-  let serviceLocalStorage: LocalStorageService;
 
   beforeEach(async () => {
     
@@ -26,32 +25,6 @@ describe('AppComponent', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
-
-  // it('should create the app', () => {
-  //   const fixture = TestBed.createComponent(AppComponent);
-  //   const app = fixture.componentInstance;
-  //   expect(app).toBeTruthy();
-  // });
-
-  // it(`should have as title 'mediaAritmetica'`, () => {
-  //   const fixture = TestBed.createComponent(AppComponent);
-  //   const app = fixture.componentInstance;
-  //   expect(app.title).toEqual('mediaAritmetica');
-  // });
-
-  // it('should render title', () => {
-  //   const fixture = TestBed.createComponent(AppComponent);
-  //   fixture.detectChanges();
-  //   const compiled = fixture.nativeElement;
-  //   expect(compiled.querySelector('.content span').textContent).toContain('mediaAritmetica app is running!');
-  // });
-
-  // it('should render title', () => {
-  //   const fixture = TestBed.createComponent(AppComponent);
-  //   fixture.detectChanges();
-  //   const compiled = fixture.nativeElement;
-  //   expect(compiled.querySelector('.content span').textContent).toContain('mediaAritmetica app is running!');
-  // });
 
   it('Los campos de rangos de valores se crean con valores vacios', () => {
     const elementHTML: HTMLElement = fixture.nativeElement;
@@ -89,6 +62,7 @@ describe('AppComponent', () => {
 
   });
 
+ 
   it('Los valores fuera del rango de valores no deben deben ser contados como datos incorrectos', async () =>  {
     const elementHTML: HTMLElement = fixture.nativeElement;
     
@@ -99,11 +73,13 @@ describe('AppComponent', () => {
     let buttonAgregar = fixture.debugElement.query(By.css('#idButtomAgregar')).nativeElement;
     
     let countIncorrectos: number = parseInt(component.incorrectos.toString()) 
+    resetValueIncorrect()
+    let textE = fixture.debugElement.query(By.css('#idDatosIncorrectos')).nativeElement;
 
     inputMin.value = 45;
     inputMax.value = 75;
     
-    inputAgregar.value = 95
+    inputAgregar.value = 955
 
     inputMin.dispatchEvent(new Event('input'));
     inputMax.dispatchEvent(new Event('input'));
@@ -112,8 +88,55 @@ describe('AppComponent', () => {
 
     expect(parseInt(inputMin.value)).toEqual(45)
     expect(parseInt(inputMax.value)).toEqual(75)
-    expect(parseInt(inputAgregar.value)).toEqual(95)
-    expect(component.incorrectos).toEqual(countIncorrectos + 1)
+    expect(parseInt(inputAgregar.value)).toEqual(955)
+    expect(parseInt(localStorage.getItem('incorrectos'))).toEqual(countIncorrectos + 1)
+
+  });
+
+
+  it('Calculo de la media aritmetica', async () => {
+    
+    const elementHTML: HTMLElement = fixture.nativeElement;
+    
+    let inputMin = fixture.debugElement.query(By.css('#idMinimo')).nativeElement;
+    let inputMax = fixture.debugElement.query(By.css('#idMaximo')).nativeElement;
+
+    let inputAgregar = fixture.debugElement.query(By.css('#idNumber')).nativeElement;    
+    let buttonAgregar = fixture.debugElement.query(By.css('#idButtomAgregar')).nativeElement;
+    let buttonMedia = fixture.debugElement.query(By.css('#idButtomMedia')).nativeElement;
+    let countCorrectos:number = parseInt(component.count.toString()) 
+    resetValueMedia()
+
+    inputMin.value = 45;
+    inputMax.value = 75;
+    
+    inputMin.dispatchEvent(new Event('input'));
+    inputMax.dispatchEvent(new Event('input'));
+    
+    
+    inputAgregar.value = 60
+    inputAgregar.dispatchEvent(new Event('input'));
+    buttonAgregar.dispatchEvent(new Event('click'));
+
+    inputAgregar.value = 70
+    inputAgregar.dispatchEvent(new Event('input'));
+    buttonAgregar.dispatchEvent(new Event('click'));
+
+    inputAgregar.value = 86
+    inputAgregar.dispatchEvent(new Event('input'));
+    buttonAgregar.dispatchEvent(new Event('click'));
+
+    inputAgregar.value = 40
+    inputAgregar.dispatchEvent(new Event('input'));
+    buttonAgregar.dispatchEvent(new Event('click'));
+
+
+
+    let textMedia = fixture.debugElement.query(By.css('#idMediaAritmetica')).nativeElement;
+    let mediaA = await component.calcular()
+    expect(parseInt(inputMin.value)).toEqual(45)
+    expect(parseInt(inputMax.value)).toEqual(75)
+    expect(localStorage.getItem('media')).toEqual('64')
 
   });
 
