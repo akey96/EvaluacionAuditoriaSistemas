@@ -19,7 +19,14 @@ export class LocalStorageService {
 
   set(key: string, value: any): boolean {
     if (this.isLocalStorageSupported) {
-      this.localStorage.setItem(key, JSON.stringify(value));
+      let data = this.get('items')
+      if (data == null) {
+        data = []
+      }
+
+      data.push(value)
+
+      this.localStorage.setItem(key, JSON.stringify(data));
       return true;
     }
     return false;

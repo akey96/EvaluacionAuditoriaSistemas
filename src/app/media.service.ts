@@ -9,7 +9,7 @@ export class MediaService {
 
   calcular(): Promise<number> {
     return new Promise((resolv,reject) => {
-      let numbers = JSON.parse(localStorage.getItem('numbers'));
+      let numbers = JSON.parse(localStorage.getItem('items'));
       if(numbers != null) {
         let sumatoria = 0;
         let media = 0;
